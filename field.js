@@ -213,6 +213,9 @@ function bombNeighbour(){
 }
 
 function fieldTable() {
+    if(document.querySelector("table")){
+        document.querySelector("table").remove()
+    }
     let tableField = document.createElement("table")
     for (let i = 0; i < fieldArr.length; i++) {
         let row = tableField.insertRow()
@@ -273,12 +276,16 @@ function checkBomb(event){
 
 }
 function rightClick(event){
+    if(event.target.tagName != "TD"){
+        return;
+    }
     event.preventDefault()
     if(event.target.innerText === "?"){
         event.target.innerText = ""
         return
     }
     event.target.innerText = "?"
+    event.target.style.color = "black"
 
 }
 
