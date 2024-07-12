@@ -1,77 +1,55 @@
-let fieldArr
-   = [
-    [0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0,],
+let fieldArr= []
 
-]
-let fieldArr2
-    = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0 ,0 ,0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-
-]
 constructFieldArr(6,6)
 let bombCoord = [];
 let bombInRow = [];
 let rowsNumbers = new Set;
-let button = document.querySelector("button");
-button.addEventListener("click", clear)
+let button = document.querySelector("#NewGame");
+button.addEventListener("click", newGame)
 let bombNumbers;
 //
 function constructFieldArr (rows, cells){ //багует на строке 127
-    fieldArr = [
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-    ]
+    fieldArr = [];
 
-    while (fieldArr[0].length < cells){
-        fieldArr[0].push(0)
+    for(let row = 0; row < rows; row++){
+        let arrRow = []
+        for(let cell = 0; cell < cells; cell++){
+            arrRow.push(0)
+        }
+        fieldArr.push(arrRow)
     }
 
-    while (fieldArr.length < rows){
-        fieldArr.push(fieldArr[0])
-    }
-    fieldArr.length = rows
 
 }
 
-function clear() {
+function newGame() {
     bombCoord = [];
     bombInRow = [];
-    rowsNumbers = new Set;
-    fieldArr = [
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-        [0, 0, 0, 0, 0, 0,],
-    ]
-    // constructFieldArr()
-    bombSpawn()
+    let rows = document.querySelector("#rowsNumber").value == "" ? document.querySelector("#rowsNumber").getAttribute(`placeholder`) : document.querySelector("#rowsNumber").value ;
+    let cells = document.querySelector("#cellNumber")?.value == "" ?document.querySelector("#cellNumber").getAttribute(`placeholder`):  document.querySelector("#cellNumber").value;
+    let bombsNumber= document.querySelector("#bombsNumber")?.value == "" ?document.querySelector("#bombsNumber").getAttribute(`placeholder`):  document.querySelector("#rowsNumber").value ;
+
+    rows > 25 ? rows = 25 : rows=rows;
+    cells > 25 ? cells = 25 : cells=cells;
+    if(bombsNumber > rows*cells/2.5){
+        bombsNumber = Math.ceil(rows*cells/2.5)
+    }
+    constructFieldArr(+rows, +cells)
+    bombSpawn(bombsNumber)
     fieldTable()
 }
-function bombSpawn (x = 10){
-    bombNumbers = x
+function bombSpawn (bombsNumber){
+    bombNumbers = bombsNumber
 
-    quantityBomb(x);
+    quantityBomb(bombsNumber);
 }
 
 
 function quantityBomb(x){//заполняем массив с кол-во бомб в ряду
     let bombCounter = x;
+
     while (bombCounter > 0){
+
         let bombQuantity;
         bombQuantity = Math.ceil(Math.random()*(bombCounter));
         if(bombQuantity >= fieldArr[0].length/2){
@@ -81,6 +59,9 @@ function quantityBomb(x){//заполняем массив с кол-во бом
             bombQuantity = bombCounter
             bombCounter = 0
         };
+        if(bombQuantity >= fieldArr[0].length){
+            bombQuantity = fieldArr[0].length
+        }
         bombInRow.push(bombQuantity);
         bombCounter -= bombQuantity;
     }
@@ -90,16 +71,24 @@ function quantityBomb(x){//заполняем массив с кол-во бом
 
 function takeRow() {// рандомно выбираем ряд
 
+    let iteration = 0
     while (rowsNumbers.size != fieldArr.length) {
         let rowNumber = Math.round(Math.random() * (fieldArr.length-1) + 1);
         rowsNumbers.add(rowNumber);
+        if(iteration > 20){
+            for(let i = 1; i < fieldArr.length+1; i++){
+                rowsNumbers.add(i);
+            }
+        }
+        iteration++
     }
+
     bombSpawnRow();
 }
 
 
 function bombSpawnRow(){// раскидываем бомбы  в рандомно выбранном ряду
-debugger
+
     while(rowsNumbers.size != 0 || bombInRow.length != 0){
         let value = rowsNumbers.values().next().value;
 
@@ -108,27 +97,28 @@ debugger
         };
 
         for(let cell of rowsNumbers){
-
+            if(cell == undefined){
+                break
+            }
             let bombQuan = bombInRow[bombInRow.length-1]
             while(bombQuan) {
-                debugger
+
                 fieldArr[cell - 1].forEach(function (item, index, arr) {
                     while (bombQuan) {
-                        debugger
+
                         let bombIsHere = Math.floor(Math.random()*1.5) > 0;
                         if (item == "x" || !bombQuan) {
                             break;
                         }
 
-                        console.log(fieldArr)
                         if (bombIsHere) {
-                            debugger
+
                             item = "x";
                             let itemArrNum = 0
                             fieldArr[cell - 1].splice(index, 1, "x")
 
                             fieldArr.forEach(function (item, index){
-                                debugger
+
                                 if(item == arr){
                                     itemArrNum = index;
                                     return;
@@ -220,7 +210,7 @@ function bombNeighbour(){
 
 }
 
-function fieldTable () {
+function fieldTable() {
     let tableField = document.createElement("table")
     for (let i = 0; i < fieldArr.length; i++) {
         let row = tableField.insertRow()
@@ -280,7 +270,7 @@ function checkBomb(event){
     checkWin()
 
 }
-function rightClick (event){
+function rightClick(event){
     event.preventDefault()
     if(event.target.innerText === "?"){
         event.target.innerText = ""
@@ -290,7 +280,7 @@ function rightClick (event){
 
 }
 
-function valueColor (cellValue, target){
+function valueColor(cellValue, target){
     switch (cellValue) {
         case 0: {
             target.style.color = "rgb(0, 128, 0)"
@@ -506,6 +496,6 @@ function checkWin(){
 
 // constructFieldArr(5,5)
 
-bombSpawn();
+bombSpawn(10);
 fieldTable();
 

@@ -9,6 +9,20 @@
     <div id="field">
 
     </div>
-    <button>New game</button>
+    <form>
+        <div class="formWrapper">
+            <input type="number" id="rowsNumber" placeholder="6">
+            <label for="rowsNumber">Желаемое количество строк(не более 25)</label>
+        </div>
+        <div class="formWrapper">
+            <input type="number" id="cellNumber" placeholder="6">
+            <label for="cellNumber">Желаемое количество ячеек(не более 25)</label>
+        </div>
+        <div class="formWrapper">
+            <input type="number" id="bombsNumber" placeholder="10">
+            <label for="bombsNumber">Желаемое количество бомб (не больше 1/3 от кол-ва ячеек)</label>
+        </div>
+    </form>
+    <button id="NewGame">New game</button>
 </body>
 </html>
