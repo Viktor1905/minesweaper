@@ -1,7 +1,7 @@
 let fieldArr= []
 
 constructFieldArr(6,6)
-document.querySelector("#bombQuan").innerHTML = document.querySelector("#bombsNumber").getAttribute(`placeholder`)
+
 let bombCoord = [];
 let bombInRow = [];
 let rowsNumbers = new Set;
@@ -504,7 +504,7 @@ function checkWin(){
 }
 
 // constructFieldArr(5,5)
-
+document.querySelector("#bombQuan").innerHTML = document.querySelector("#bombsNumber").getAttribute(`placeholder`)
 bombSpawn(document.querySelector("#bombsNumber").getAttribute(`placeholder`));
 fieldTable();
 
