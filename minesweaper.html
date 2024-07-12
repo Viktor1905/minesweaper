@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script  src="field.js" type="text/javascript" async></script>
+</head>
+<body>
+    <p>Количество бомб: <span id="bombQuan"></span></p>
+    <div id="field">
+
+    </div>
+    <form>
+        <div class="formWrapper">
+            <input type="number" id="rowsNumber" placeholder="6">
+            <label for="rowsNumber">Желаемое количество строк(не более 25)</label>
+        </div>
+        <div class="formWrapper">
+            <input type="number" id="cellNumber" placeholder="6">
+            <label for="cellNumber">Желаемое количество ячеек(не более 25)</label>
+        </div>
+        <div class="formWrapper">
+            <input type="number" id="bombsNumber" placeholder="10">
+            <label for="bombsNumber">Желаемое количество бомб (не больше 1/3 от кол-ва ячеек)</label>
+        </div>
+    </form>
+    <button id="NewGame">New game</button>
+</body>
+</html>

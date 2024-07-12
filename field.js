@@ -1,6 +1,7 @@
 let fieldArr= []
 
 constructFieldArr(6,6)
+document.querySelector("#bombQuan").innerHTML = document.querySelector("#bombsNumber").getAttribute(`placeholder`)
 let bombCoord = [];
 let bombInRow = [];
 let rowsNumbers = new Set;
@@ -27,13 +28,14 @@ function newGame() {
     bombInRow = [];
     let rows = document.querySelector("#rowsNumber").value == "" ? document.querySelector("#rowsNumber").getAttribute(`placeholder`) : document.querySelector("#rowsNumber").value ;
     let cells = document.querySelector("#cellNumber")?.value == "" ?document.querySelector("#cellNumber").getAttribute(`placeholder`):  document.querySelector("#cellNumber").value;
-    let bombsNumber= document.querySelector("#bombsNumber")?.value == "" ?document.querySelector("#bombsNumber").getAttribute(`placeholder`):  document.querySelector("#rowsNumber").value ;
-
+    let bombsNumber= document.querySelector("#bombsNumber")?.value == "" ?document.querySelector("#bombsNumber").getAttribute(`placeholder`):  document.querySelector("#bombsNumber").value ;
+    document.querySelector("#bombQuan").innerHTML = bombsNumber
     rows > 25 ? rows = 25 : rows=rows;
     cells > 25 ? cells = 25 : cells=cells;
     if(bombsNumber > rows*cells/2.5){
         bombsNumber = Math.ceil(rows*cells/2.5)
     }
+    console.log(bombsNumber)
     constructFieldArr(+rows, +cells)
     bombSpawn(bombsNumber)
     fieldTable()
@@ -496,6 +498,6 @@ function checkWin(){
 
 // constructFieldArr(5,5)
 
-bombSpawn(10);
+bombSpawn(document.querySelector("#bombsNumber").getAttribute(`placeholder`));
 fieldTable();
 
