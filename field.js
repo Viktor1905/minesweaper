@@ -1,6 +1,8 @@
+"use strict"
 let fieldArr= []
 
 constructFieldArr(6,6)
+
 
 let bombCoord = [];
 let bombInRow = [];
@@ -34,6 +36,7 @@ function newGame() {
     cells > 25 ? cells = 25 : cells=cells;
     if(bombsNumber > rows*cells/2.5){
         bombsNumber = Math.ceil(rows*cells/2.5)
+        document.querySelector("#bombsNumber").value = document.querySelector("#bombQuan").innerHTML=  bombsNumber
     }
     console.log(bombsNumber)
     constructFieldArr(+rows, +cells)
@@ -282,13 +285,25 @@ function rightClick(event){
     event.preventDefault()
     if(event.target.innerText === "?"){
         event.target.innerText = ""
+        checkQuanBomb()
         return
     }
     event.target.innerText = "?"
     event.target.style.color = "black"
+    checkQuanBomb()
+}
+function checkQuanBomb(){
+    let TD = document.querySelectorAll("TD")
+    TD = Array.from(TD)
+    let question = TD.filter(function (item,index){
+        if(item.innerText === "?") {
+            return item
+        }
+    })
+    let bombQuanElem = document.querySelector("#bombQuan")
+    bombQuanElem.innerText = document.querySelector("#bombsNumber").getAttribute(`placeholder`) - question.length
 
 }
-
 function valueColor(cellValue, target){
     switch (cellValue) {
         case 0: {
