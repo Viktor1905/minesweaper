@@ -301,7 +301,7 @@ function checkQuanBomb(){
         }
     })
     let bombQuanElem = document.querySelector("#bombQuan")
-    bombQuanElem.innerText = document.querySelector("#bombsNumber").getAttribute(`placeholder`) - question.length
+    bombQuanElem.innerText = document.querySelector("#bombsNumber").value - question.length
 
 }
 function valueColor(cellValue, target){
