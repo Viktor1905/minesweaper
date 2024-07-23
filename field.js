@@ -279,7 +279,7 @@ function checkBomb(event){
 
 }
 function rightClick(event){
-    if(event.target.tagName != "TD" || event.target.classList.contains("opened"){
+    if(event.target.tagName != "TD" || event.target.classList.contains("opened")){
         return;
     }
     event.preventDefault()
